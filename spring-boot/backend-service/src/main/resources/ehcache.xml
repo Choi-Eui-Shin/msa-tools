@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+	updateCheck="false" monitoring="autodetect" dynamicConfig="true">
+
+	<defaultCache eternal="false" overflowToDisk="false" diskPersistent="false"
+		diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU">
+	</defaultCache>
+
+	<cacheManagerPeerProviderFactory
+		class="com.choies.JGroupsCacheManagerPeerProviderFactory"
+		properties="file=jgroups/tcp.xml" />
+
+	<cache name="CHOIES" maxEntriesLocalHeap="10000"
+		memoryStoreEvictionPolicy="LFU">
+
+       <cacheEventListenerFactory
+                class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+                properties="replicateAsynchronously=false, replicatePuts=true,
+            replicateUpdates=true, replicateUpdatesViaCopy=true,
+            replicateRemovals=true"/>
+        <!-- 
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.jgroups.JGroupsBootstrapCacheLoaderFactory"
+			properties="bootstrapAsynchronously=false" />  -->
+	</cache>
+
+</ehcache>
